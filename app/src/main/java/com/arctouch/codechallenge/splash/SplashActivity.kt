@@ -4,13 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import com.arctouch.codechallenge.R
 import com.arctouch.codechallenge.api.TmdbApi
-import com.arctouch.codechallenge.base.BaseActivity
+import com.arctouch.codechallenge.base.OldBaseActivity
 import com.arctouch.codechallenge.data.Cache
 import com.arctouch.codechallenge.home.HomeActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class SplashActivity : BaseActivity() {
+class SplashActivity : OldBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

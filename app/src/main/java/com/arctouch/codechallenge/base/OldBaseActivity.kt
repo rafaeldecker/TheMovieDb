@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class OldBaseActivity : AppCompatActivity() {
 
     protected val api: TmdbApi = Retrofit.Builder()
         .baseUrl(TmdbApi.URL)
