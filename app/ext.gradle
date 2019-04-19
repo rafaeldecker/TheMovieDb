@@ -10,6 +10,7 @@ buildscript {
         lifecycle_version = "2.0.0"
         material_design_version = "1.0.0"
         mockito_version = "2.23.4"
+        okhttp_version = "3.11.0"
         retrofit_version = "2.3.0"
         rx_java_version = "2.0.2"
         test_runner_version = "1.0.2"
