@@ -50,6 +50,9 @@ dependencies {
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    // Logger
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
     // Support Library
     implementation "androidx.appcompat:appcompat:$app_compat_version"
     implementation "com.google.android.material:material:$material_design_version"

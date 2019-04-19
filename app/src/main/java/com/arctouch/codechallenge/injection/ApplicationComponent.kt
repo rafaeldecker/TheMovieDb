@@ -16,7 +16,8 @@ import javax.inject.Singleton
         ApiModule::class,
         DomainModule::class,
         InfraModule::class,
-        MappersModule::class
+        MappersModule::class,
+        ViewModelModule::class
     ]
 )
 interface ApplicationComponent {
