@@ -8,7 +8,7 @@ import com.arctouch.codechallenge.R
 import com.arctouch.codechallenge.utils.ClickHandler
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import kotlinx.android.synthetic.main.movie_item.view.*
+import kotlinx.android.synthetic.main.item_movie.view.*
 
 class HomeAdapter(
     private val movies: List<HomeModel>,
@@ -35,7 +35,7 @@ class HomeAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
         return ViewHolder(view, clickHandler)
     }
 

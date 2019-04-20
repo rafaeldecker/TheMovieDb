@@ -11,7 +11,8 @@ import javax.inject.Inject
  */
 
 class MovieMapper @Inject constructor(
-    private val genresCache: GenresCache
+    private val genresCache: GenresCache,
+    private val genresMapper: GenreMapper
 ): Mapper<MovieItem, Movie> {
 
     override fun map(param: MovieItem): Movie =
@@ -23,7 +24,11 @@ class MovieMapper @Inject constructor(
                 posterPath = posterPath,
                 backdropPath = backdropPath,
                 releaseDate = releaseDate,
-                genres = genresCache.genres.filter { genreIds?.contains(it.id) == true }
+                genres = if (genreIds != null) {
+                    genresCache.genres.filter { genreIds.contains(it.id) }
+                } else {
+                    genres?.let { genresMapper.mapList(it) }
+                }
             )
         }
 

@@ -4,15 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.arctouch.codechallenge.R
 import com.arctouch.codechallenge.android.screens.base.MvvmActivity
 import com.arctouch.codechallenge.android.screens.base.ViewModelState
 import com.arctouch.codechallenge.injection.ActivityComponent
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import kotlinx.android.synthetic.main.detail_activity.*
+import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.include_error_layout.*
-import kotlinx.android.synthetic.main.movie_item.view.*
 
 /**
  * Created by Rafael Decker on 2019-04-20.
@@ -26,9 +26,11 @@ class DetailActivity : MvvmActivity<DetailViewModel>() {
 
     private val movieId by lazy { intent.getLongExtra(ID_KEY, 0) }
 
+    private val adapter = DetailAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.detail_activity)
+        setContentView(R.layout.activity_detail)
         setupViews()
         setupViewModel()
     }
@@ -40,6 +42,8 @@ class DetailActivity : MvvmActivity<DetailViewModel>() {
     private fun setupViews() {
         setupToolBar()
         retryButton.setOnClickListener { viewModel.run(movieId) }
+        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        recyclerView.adapter = adapter
     }
 
     private fun setupToolBar() {
@@ -61,6 +65,7 @@ class DetailActivity : MvvmActivity<DetailViewModel>() {
     }
 
     private fun showData(data: DetailModel) {
+        supportActionBar?.title = data.title
         progressBar.visibility = View.GONE
         errorLayout.visibility = View.GONE
         data.backdropImageUrl?.let {
@@ -68,6 +73,7 @@ class DetailActivity : MvvmActivity<DetailViewModel>() {
                 .load(it)
                 .into(backgroundImageView)
         }
+        adapter.dataSource = data.items
     }
 
     private fun showLoadingState() {

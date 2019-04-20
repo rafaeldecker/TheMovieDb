@@ -15,11 +15,11 @@ class DetailModelMapper @Inject constructor(
 
     override fun map(param: Movie): DetailModel {
         val items = mutableListOf<DetailModelItem>()
-        items.add(DetailModelItem.Title(param.title))
         overviewItem(param)?.let { items.add(it) }
         genresItem(param)?.let { items.add(it) }
         releaseDateItem(param)?.let { items.add(it) }
         return DetailModel(
+            title = param.title,
             backdropImageUrl = param.backdropPath?.let { imageUrlBuilder.buildBackdropUrl(it) },
             items = items
         )

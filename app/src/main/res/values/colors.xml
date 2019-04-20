@@ -5,4 +5,5 @@
     <color name="colorAccent">@color/colorPrimary</color>
     <color name="transparent">#00000000</color>
     <color name="white">#FFF</color>
+    <color name="white_20_alpha">#CCFFFFFF</color>
 </resources>

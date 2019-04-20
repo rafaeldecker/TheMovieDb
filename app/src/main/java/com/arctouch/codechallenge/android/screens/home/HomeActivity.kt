@@ -10,7 +10,7 @@ import com.arctouch.codechallenge.android.screens.base.withNavigator
 import com.arctouch.codechallenge.android.screens.detail.DetailActivity
 import com.arctouch.codechallenge.injection.ActivityComponent
 import com.arctouch.codechallenge.utils.ClickHandler
-import kotlinx.android.synthetic.main.home_activity.*
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.include_error_layout.*
 
 class HomeActivity : MvvmActivity<HomeViewModel>(),
@@ -22,7 +22,7 @@ class HomeActivity : MvvmActivity<HomeViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.home_activity)
+        setContentView(R.layout.activity_home)
         retryButton.setOnClickListener {
             viewModel.retry()
         }
