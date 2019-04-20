@@ -9,4 +9,7 @@
     <dimen name="text_size_normal">14sp</dimen>
     <dimen name="text_size_big">16sp</dimen>
 
+    <!-- Detail -->
+    <dimen name="detail_image_height">250dp</dimen>
+
 </resources>

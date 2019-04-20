@@ -1,5 +1,6 @@
 package com.arctouch.codechallenge.android.screens.base
 
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.arctouch.codechallenge.infra.api.TmdbApi
 import okhttp3.OkHttpClient
@@ -9,12 +10,12 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    // TODO: Remove it when refactor is done
-    protected val api: TmdbApi = Retrofit.Builder()
-        .baseUrl(TmdbApi.URL)
-        .client(OkHttpClient.Builder().build())
-        .addConverterFactory(MoshiConverterFactory.create())
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .build()
-        .create(TmdbApi::class.java)
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item?.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }

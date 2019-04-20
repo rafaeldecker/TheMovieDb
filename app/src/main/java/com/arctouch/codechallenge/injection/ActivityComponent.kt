@@ -2,6 +2,7 @@ package com.arctouch.codechallenge.injection
 
 import androidx.appcompat.app.AppCompatActivity
 import com.arctouch.codechallenge.android.App
+import com.arctouch.codechallenge.android.screens.detail.DetailActivity
 import com.arctouch.codechallenge.android.screens.home.HomeActivity
 import dagger.Subcomponent
 
@@ -15,6 +16,7 @@ import dagger.Subcomponent
 ])
 interface ActivityComponent {
 
+    fun inject(activity: DetailActivity)
     fun inject(activity: HomeActivity)
 
     companion object {

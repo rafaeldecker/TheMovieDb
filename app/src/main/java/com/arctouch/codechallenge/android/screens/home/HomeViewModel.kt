@@ -2,6 +2,7 @@ package com.arctouch.codechallenge.android.screens.home
 
 import androidx.lifecycle.ViewModel
 import com.arctouch.codechallenge.android.screens.base.MvvmViewModel
+import com.arctouch.codechallenge.android.screens.base.ViewModelNavigator
 import com.arctouch.codechallenge.android.screens.base.ViewModelState
 import com.arctouch.codechallenge.domain.FetchAndStoreGenresUseCase
 import com.arctouch.codechallenge.domain.FetchUpcomingMoviesUseCase
@@ -14,6 +15,8 @@ import javax.inject.Inject
  * Created by Rafael Decker on 2019-04-19.
  */
 
+data class NavigateToMovieDetail(val movieId: Int)
+
 class HomeViewModel @Inject constructor(
     private val rxSchedulerProvider: RxSchedulerProvider,
     private val fetchAndStoreGenresUseCase: FetchAndStoreGenresUseCase,
@@ -22,6 +25,10 @@ class HomeViewModel @Inject constructor(
 ): MvvmViewModel() {
 
     init {
+        fetchData()
+    }
+
+    fun retry() {
         fetchData()
     }
 
@@ -39,6 +46,11 @@ class HomeViewModel @Inject constructor(
                     handleError(it)
                 })
         )
+    }
+
+    fun onItemClicked(item: MovieModel) {
+        val target = NavigateToMovieDetail(item.id)
+        updateNavigator(ViewModelNavigator.Navigate(target))
     }
 
 }

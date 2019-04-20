@@ -5,17 +5,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arctouch.codechallenge.R
+import com.arctouch.codechallenge.utils.ClickHandler
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.movie_item.view.*
 
 class HomeAdapter(
-    private val movies: List<MovieModel>
+    private val movies: List<MovieModel>,
+    private var clickHandler: ClickHandler<MovieModel>? = null
 ) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(
+        itemView: View,
+        private var clickHandler: ClickHandler<MovieModel>? = null
+    ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(movie: MovieModel) {
+            itemView.setOnClickListener {
+                clickHandler?.onClick(movie)
+            }
             itemView.titleTextView.text = movie.title
             itemView.genresTextView.text = movie.genres
             itemView.releaseDateTextView.text = movie.releaseDate
@@ -28,7 +36,7 @@ class HomeAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, clickHandler)
     }
 
     override fun getItemCount() = movies.size

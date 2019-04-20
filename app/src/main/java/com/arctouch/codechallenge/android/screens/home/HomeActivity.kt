@@ -4,11 +4,16 @@ import android.os.Bundle
 import android.view.View
 import com.arctouch.codechallenge.R
 import com.arctouch.codechallenge.android.screens.base.MvvmActivity
+import com.arctouch.codechallenge.android.screens.base.ViewModelNavigator
 import com.arctouch.codechallenge.android.screens.base.ViewModelState
+import com.arctouch.codechallenge.android.screens.base.withNavigator
+import com.arctouch.codechallenge.android.screens.detail.DetailActivity
 import com.arctouch.codechallenge.injection.ActivityComponent
+import com.arctouch.codechallenge.utils.ClickHandler
 import kotlinx.android.synthetic.main.home_activity.*
 
-class HomeActivity : MvvmActivity<HomeViewModel>() {
+class HomeActivity : MvvmActivity<HomeViewModel>(),
+    ClickHandler<MovieModel> {
 
     override val viewModel: HomeViewModel by lazy {
         viewModelFactory.get<HomeViewModel>(this)
@@ -17,6 +22,9 @@ class HomeActivity : MvvmActivity<HomeViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)
+        retryButton.setOnClickListener {
+            viewModel.retry()
+        }
     }
 
     override fun assignDependencies() {
@@ -32,13 +40,31 @@ class HomeActivity : MvvmActivity<HomeViewModel>() {
         }
     }
 
+    override fun onNavigate(navigator: ViewModelNavigator) {
+        withNavigator(navigator) {
+            when (it) {
+                is NavigateToMovieDetail -> {
+                    DetailActivity.launch(
+                        context = this,
+                        id = it.movieId
+                    )
+                }
+            }
+        }
+    }
+
+    override fun onClick(item: MovieModel) {
+        viewModel.onItemClicked(item)
+    }
+
     private fun showDataState(list: List<MovieModel>) {
         errorLayout.visibility = View.GONE
         progressBar.visibility = View.GONE
-        recyclerView.adapter = HomeAdapter(list)
+        recyclerView.adapter = HomeAdapter(list, this)
     }
 
     private fun showErrorState() {
+        progressBar.visibility = View.GONE
         errorLayout.visibility = View.VISIBLE
     }
 
