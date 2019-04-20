@@ -1,5 +1,9 @@
 package com.arctouch.codechallenge.injection
 
+import com.arctouch.codechallenge.android.screens.detail.DetailModel
+import com.arctouch.codechallenge.android.screens.detail.DetailModelMapper
+import com.arctouch.codechallenge.android.screens.home.HomeModel
+import com.arctouch.codechallenge.android.screens.home.HomeModelMapper
 import com.arctouch.codechallenge.entities.Genre
 import com.arctouch.codechallenge.entities.Movie
 import com.arctouch.codechallenge.infra.api.GenreItem
@@ -17,6 +21,8 @@ import dagger.Module
 @Module
 abstract class MappersModule {
 
+    // Domain
+
     @Binds
     abstract fun bindGenreMapper(
         mapper: GenreMapper
@@ -26,5 +32,19 @@ abstract class MappersModule {
     abstract fun bindMovieMapper(
         mapper: MovieMapper
     ): Mapper<MovieItem, Movie>
+
+    // Home screen
+
+    @Binds
+    abstract fun bindHomeModelMapper(
+        mapper: HomeModelMapper
+    ): Mapper<Movie, HomeModel>
+
+    // Detail screen
+
+    @Binds
+    abstract fun bindDetailModelMapper(
+        mapper: DetailModelMapper
+    ): Mapper<Movie, DetailModel>
 
 }

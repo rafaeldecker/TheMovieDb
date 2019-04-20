@@ -9,13 +9,13 @@ import javax.inject.Inject
  * Created by Rafael Decker on 2019-04-20.
  */
 
-class MovieModelMapper @Inject constructor(
+class HomeModelMapper @Inject constructor(
     private val urlBuilder: MovieImageUrlBuilder
-): Mapper<Movie, MovieModel> {
+): Mapper<Movie, HomeModel> {
 
-    override fun map(param: Movie): MovieModel =
+    override fun map(param: Movie): HomeModel =
         with(param) {
-            MovieModel(
+            HomeModel(
                 id = id,
                 title = title,
                 genres = genres.orEmpty().joinToString(separator = ", ") { it.name },
@@ -24,7 +24,7 @@ class MovieModelMapper @Inject constructor(
             )
         }
 
-    override fun mapReverse(param: MovieModel): Movie {
+    override fun mapReverse(param: HomeModel): Movie {
         throw NotImplementedError("MovieModelMapper mapReverse")
     }
 }

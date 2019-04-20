@@ -1,6 +1,5 @@
 package com.arctouch.codechallenge.android.screens.home
 
-import androidx.lifecycle.ViewModel
 import com.arctouch.codechallenge.android.screens.base.MvvmViewModel
 import com.arctouch.codechallenge.android.screens.base.ViewModelNavigator
 import com.arctouch.codechallenge.android.screens.base.ViewModelState
@@ -15,13 +14,13 @@ import javax.inject.Inject
  * Created by Rafael Decker on 2019-04-19.
  */
 
-data class NavigateToMovieDetail(val movieId: Int)
+data class NavigateToMovieDetail(val movieId: Long)
 
 class HomeViewModel @Inject constructor(
     private val rxSchedulerProvider: RxSchedulerProvider,
     private val fetchAndStoreGenresUseCase: FetchAndStoreGenresUseCase,
     private val fetchUpcomingMoviesUseCase: FetchUpcomingMoviesUseCase,
-    private val movieModelMapper: MovieModelMapper
+    private val HomeModelMapper: HomeModelMapper
 ): MvvmViewModel() {
 
     init {
@@ -38,7 +37,7 @@ class HomeViewModel @Inject constructor(
                 .doOnSubscribe { updateState(ViewModelState.Loading) }
                 .subscribeOnIo(rxSchedulerProvider)
                 .andThen(fetchUpcomingMoviesUseCase.fetch())
-                .map { movieModelMapper.mapList(it) }
+                .map { HomeModelMapper.mapList(it) }
                 .observeOnMainThread(rxSchedulerProvider)
                 .subscribe({
                     updateState(ViewModelState.Data(it))
@@ -48,7 +47,7 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    fun onItemClicked(item: MovieModel) {
+    fun onItemClicked(item: HomeModel) {
         val target = NavigateToMovieDetail(item.id)
         updateNavigator(ViewModelNavigator.Navigate(target))
     }

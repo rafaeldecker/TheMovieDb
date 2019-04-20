@@ -1,9 +1,6 @@
 package com.arctouch.codechallenge.injection
 
-import com.arctouch.codechallenge.domain.FetchAndStoreGenresUseCase
-import com.arctouch.codechallenge.domain.FetchAndStoreGenresUseCaseImpl
-import com.arctouch.codechallenge.domain.FetchUpcomingMoviesUseCase
-import com.arctouch.codechallenge.domain.FetchUpcomingMoviesUseCaseImpl
+import com.arctouch.codechallenge.domain.*
 import dagger.Binds
 import dagger.Module
 
@@ -23,5 +20,10 @@ abstract class DomainModule {
     abstract fun bindFetchUpcomingMoviesUseCase(
         useCase: FetchUpcomingMoviesUseCaseImpl
     ): FetchUpcomingMoviesUseCase
+
+    @Binds
+    abstract fun bindFetchMovieDetailUseCase(
+        useCase: FetchMovieDetailUseCaseImpl
+    ): FetchMovieDetailUseCase
 
 }

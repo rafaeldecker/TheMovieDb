@@ -11,16 +11,16 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.movie_item.view.*
 
 class HomeAdapter(
-    private val movies: List<MovieModel>,
-    private var clickHandler: ClickHandler<MovieModel>? = null
+    private val movies: List<HomeModel>,
+    private var clickHandler: ClickHandler<HomeModel>? = null
 ) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     class ViewHolder(
         itemView: View,
-        private var clickHandler: ClickHandler<MovieModel>? = null
+        private var clickHandler: ClickHandler<HomeModel>? = null
     ) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(movie: MovieModel) {
+        fun bind(movie: HomeModel) {
             itemView.setOnClickListener {
                 clickHandler?.onClick(movie)
             }

@@ -11,9 +11,10 @@ import com.arctouch.codechallenge.android.screens.detail.DetailActivity
 import com.arctouch.codechallenge.injection.ActivityComponent
 import com.arctouch.codechallenge.utils.ClickHandler
 import kotlinx.android.synthetic.main.home_activity.*
+import kotlinx.android.synthetic.main.include_error_layout.*
 
 class HomeActivity : MvvmActivity<HomeViewModel>(),
-    ClickHandler<MovieModel> {
+    ClickHandler<HomeModel> {
 
     override val viewModel: HomeViewModel by lazy {
         viewModelFactory.get<HomeViewModel>(this)
@@ -34,7 +35,7 @@ class HomeActivity : MvvmActivity<HomeViewModel>(),
     @Suppress("UNCHECKED_CAST")
     override fun onViewModelStateChanged(state: ViewModelState) {
         when (state) {
-            is ViewModelState.Data<*> -> showDataState(state.data as List<MovieModel>)
+            is ViewModelState.Data<*> -> showDataState(state.data as List<HomeModel>)
             ViewModelState.Loading -> showLoadingState()
             is ViewModelState.Error -> showErrorState()
         }
@@ -53,11 +54,11 @@ class HomeActivity : MvvmActivity<HomeViewModel>(),
         }
     }
 
-    override fun onClick(item: MovieModel) {
+    override fun onClick(item: HomeModel) {
         viewModel.onItemClicked(item)
     }
 
-    private fun showDataState(list: List<MovieModel>) {
+    private fun showDataState(list: List<HomeModel>) {
         errorLayout.visibility = View.GONE
         progressBar.visibility = View.GONE
         recyclerView.adapter = HomeAdapter(list, this)
