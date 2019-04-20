@@ -1,5 +1,6 @@
 package com.arctouch.codechallenge.domain
 
+import com.arctouch.codechallenge.BuildConfig
 import com.arctouch.codechallenge.infra.api.ApiLocaleProvider
 import com.arctouch.codechallenge.infra.api.TmdbApi
 import com.arctouch.codechallenge.infra.api.mappers.GenreMapper
@@ -19,7 +20,7 @@ class FetchAndStoreGenresUseCaseImpl @Inject constructor(
 ) : FetchAndStoreGenresUseCase {
 
     override fun run(): Completable =
-        api.genres(TmdbApi.API_KEY, localeProvider.language())
+        api.genres(BuildConfig.API_KEY, localeProvider.language())
             .flatMapCompletable {
                 cache.genres = mapper.mapList(it.genres)
                 Completable.complete()

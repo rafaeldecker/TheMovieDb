@@ -1,16 +1,14 @@
 package com.arctouch.codechallenge.infra.api
 
+import com.arctouch.codechallenge.infra.api.models.GenreResponse
+import com.arctouch.codechallenge.infra.api.models.MovieItem
+import com.arctouch.codechallenge.infra.api.models.UpcomingMovieResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TmdbApi {
-
-    companion object {
-        const val URL = "https://api.themoviedb.org/3/"
-        const val API_KEY = "1f54bd990f1cdfb230adb312546d765d"
-    }
 
     @GET("genre/movie/list")
     fun genres(
@@ -24,7 +22,7 @@ interface TmdbApi {
         @Query("language") language: String,
         @Query("page") page: Long,
         @Query("region") region: String
-    ): Observable<UpcomingMoviesResponse>
+    ): Observable<UpcomingMovieResponse>
 
     @GET("movie/{id}")
     fun movie(

@@ -11,9 +11,14 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_movie.view.*
 
 class HomeAdapter(
-    private val movies: List<HomeModel>,
     private var clickHandler: ClickHandler<HomeModel>? = null
 ) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+
+    var movies: List<HomeModel> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     class ViewHolder(
         itemView: View,

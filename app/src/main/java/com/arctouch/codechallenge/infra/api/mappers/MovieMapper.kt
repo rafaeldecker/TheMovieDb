@@ -1,7 +1,7 @@
 package com.arctouch.codechallenge.infra.api.mappers
 
 import com.arctouch.codechallenge.entities.Movie
-import com.arctouch.codechallenge.infra.api.MovieItem
+import com.arctouch.codechallenge.infra.api.models.MovieItem
 import com.arctouch.codechallenge.infra.cache.GenresCache
 import com.arctouch.codechallenge.utils.Mapper
 import javax.inject.Inject

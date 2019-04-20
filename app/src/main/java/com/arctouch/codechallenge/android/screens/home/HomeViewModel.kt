@@ -5,8 +5,10 @@ import com.arctouch.codechallenge.android.screens.base.ViewModelNavigator
 import com.arctouch.codechallenge.android.screens.base.ViewModelState
 import com.arctouch.codechallenge.domain.FetchAndStoreGenresUseCase
 import com.arctouch.codechallenge.domain.FetchUpcomingMoviesUseCase
+import com.arctouch.codechallenge.infra.logger.Logger
 import com.arctouch.codechallenge.infra.schedulers.RxSchedulerProvider
 import com.arctouch.codechallenge.utils.extensions.observeOnMainThread
+import com.arctouch.codechallenge.utils.extensions.saveMainThread
 import com.arctouch.codechallenge.utils.extensions.subscribeOnIo
 import javax.inject.Inject
 
@@ -20,28 +22,32 @@ class HomeViewModel @Inject constructor(
     private val rxSchedulerProvider: RxSchedulerProvider,
     private val fetchAndStoreGenresUseCase: FetchAndStoreGenresUseCase,
     private val fetchUpcomingMoviesUseCase: FetchUpcomingMoviesUseCase,
-    private val HomeModelMapper: HomeModelMapper
-): MvvmViewModel() {
+    private val HomeModelMapper: HomeModelMapper,
+    private val logger: Logger
+) : MvvmViewModel() {
+
+    private var data: ArrayList<HomeModel> = ArrayList()
+    private var currentOffset: Long = 0
+    private var maxPages = Long.MAX_VALUE
 
     init {
-        fetchData()
+        loadData()
     }
 
     fun retry() {
-        fetchData()
+        loadData()
     }
 
-    private fun fetchData() {
+    private fun loadData() {
         addDisposable(
             fetchAndStoreGenresUseCase.run()
                 .doOnSubscribe { updateState(ViewModelState.Loading) }
                 .subscribeOnIo(rxSchedulerProvider)
-                .andThen(fetchUpcomingMoviesUseCase.fetch())
-                .map { HomeModelMapper.mapList(it) }
-                .observeOnMainThread(rxSchedulerProvider)
+                .andThen(fetchNextPageObservable())
+                .observeOnMainThread (rxSchedulerProvider)
                 .subscribe({
-                    updateState(ViewModelState.Data(it))
-                },{
+                    handleResult(it)
+                }, {
                     handleError(it)
                 })
         )
@@ -51,5 +57,38 @@ class HomeViewModel @Inject constructor(
         val target = NavigateToMovieDetail(item.id)
         updateNavigator(ViewModelNavigator.Navigate(target))
     }
+
+    fun onLoadMore() {
+        logger.d("Current page: $currentOffset maxPages: $maxPages")
+        if (canLoadMore()) {
+            updateState(ViewModelState.Loading)
+            addDisposable(
+                fetchNextPageObservable()
+                    .saveMainThread(rxSchedulerProvider)
+                    .subscribe({
+                        handleResult(it)
+                    },{
+                        handleError(it)
+                    })
+            )
+        }
+    }
+
+    private fun fetchNextPageObservable() =
+        fetchUpcomingMoviesUseCase.fetch((currentOffset + 1))
+            .doOnNext {
+                currentOffset = it.page
+                maxPages = it.totalPages
+                logger.d("Current page: $currentOffset maxPages: $maxPages")
+            }
+            .map { HomeModelMapper.mapList(it.data) }
+
+    private fun handleResult(it: List<HomeModel>) {
+        data.addAll(it)
+        updateState(ViewModelState.Data(data))
+    }
+
+    private fun canLoadMore(): Boolean =
+        state.value != ViewModelState.Loading && currentOffset < maxPages
 
 }

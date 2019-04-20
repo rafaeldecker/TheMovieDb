@@ -1,6 +1,7 @@
 package com.arctouch.codechallenge.domain
 
 import com.arctouch.codechallenge.entities.Movie
+import com.arctouch.codechallenge.entities.PagingData
 import io.reactivex.Observable
 
 /**
@@ -9,6 +10,6 @@ import io.reactivex.Observable
 
 interface FetchUpcomingMoviesUseCase {
 
-    fun fetch(): Observable<List<Movie>>
+    fun fetch(page: Long): Observable<PagingData<Movie>>
 
 }

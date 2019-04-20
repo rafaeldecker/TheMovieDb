@@ -1,6 +1,8 @@
 package com.arctouch.codechallenge.domain
 
+import com.arctouch.codechallenge.BuildConfig
 import com.arctouch.codechallenge.entities.Movie
+import com.arctouch.codechallenge.entities.PagingData
 import com.arctouch.codechallenge.infra.api.ApiLocaleProvider
 import com.arctouch.codechallenge.infra.api.TmdbApi
 import com.arctouch.codechallenge.infra.api.mappers.MovieMapper
@@ -17,12 +19,18 @@ class FetchUpcomingMoviesUseCaseImpl @Inject constructor(
     private val mapper: MovieMapper
 ): FetchUpcomingMoviesUseCase {
 
-    override fun fetch(): Observable<List<Movie>> =
+    override fun fetch(page: Long): Observable<PagingData<Movie>> =
         api.upcomingMovies(
-            TmdbApi.API_KEY,
+            BuildConfig.API_KEY,
             apiLocaleProvider.language(),
-            1,
+            page,
             apiLocaleProvider.region()
-        ).map { mapper.mapList(it.results) }
+        ).map {
+            PagingData(
+                it.page,
+                it.totalPages,
+                mapper.mapList(it.results)
+            )
+        }
 
 }

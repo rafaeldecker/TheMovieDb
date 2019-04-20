@@ -1,7 +1,7 @@
 package com.arctouch.codechallenge.infra.api.mappers
 
 import com.arctouch.codechallenge.entities.Genre
-import com.arctouch.codechallenge.infra.api.GenreItem
+import com.arctouch.codechallenge.infra.api.models.GenreItem
 import com.arctouch.codechallenge.utils.Mapper
 import javax.inject.Inject
 

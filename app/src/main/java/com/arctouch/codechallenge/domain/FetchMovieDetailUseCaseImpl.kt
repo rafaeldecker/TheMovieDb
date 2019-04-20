@@ -1,5 +1,6 @@
 package com.arctouch.codechallenge.domain
 
+import com.arctouch.codechallenge.BuildConfig
 import com.arctouch.codechallenge.entities.Movie
 import com.arctouch.codechallenge.infra.api.ApiLocaleProvider
 import com.arctouch.codechallenge.infra.api.TmdbApi
@@ -18,7 +19,7 @@ class FetchMovieDetailUseCaseImpl @Inject constructor(
 ): FetchMovieDetailUseCase {
 
     override fun fetch(movieId: Long): Observable<Movie> =
-        api.movie(movieId, TmdbApi.API_KEY, apiLocaleProvider.language())
+        api.movie(movieId, BuildConfig.API_KEY, apiLocaleProvider.language())
             .map { movieMapper.map(it) }
 
 }

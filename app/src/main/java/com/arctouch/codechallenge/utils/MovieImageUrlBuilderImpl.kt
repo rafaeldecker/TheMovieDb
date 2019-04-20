@@ -1,5 +1,6 @@
 package com.arctouch.codechallenge.utils
 
+import com.arctouch.codechallenge.BuildConfig
 import com.arctouch.codechallenge.infra.api.TmdbApi
 import javax.inject.Inject
 
@@ -12,11 +13,11 @@ class MovieImageUrlBuilderImpl @Inject constructor(
 ): MovieImageUrlBuilder {
 
     override fun buildPosterUrl(posterPath: String): String {
-        return POSTER_URL + posterPath + "?api_key=" + TmdbApi.API_KEY
+        return POSTER_URL + posterPath + "?api_key=" + BuildConfig.API_KEY
     }
 
     override fun buildBackdropUrl(backdropPath: String): String {
-        return BACKDROP_URL + backdropPath + "?api_key=" + TmdbApi.API_KEY
+        return BACKDROP_URL + backdropPath + "?api_key=" + BuildConfig.API_KEY
     }
 
     companion object {
