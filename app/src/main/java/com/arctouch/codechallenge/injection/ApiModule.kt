@@ -1,5 +1,7 @@
 package com.arctouch.codechallenge.injection
 
+import com.arctouch.codechallenge.infra.api.ApiLocaleProvider
+import com.arctouch.codechallenge.infra.api.ApiLocaleProviderImpl
 import com.arctouch.codechallenge.infra.api.RetrofitFactory
 import com.arctouch.codechallenge.infra.api.TmdbApi
 import com.arctouch.codechallenge.infra.logger.Logger
@@ -35,6 +37,11 @@ class ApiModule {
     fun provideRetrofit(
         retrofitFactory: RetrofitFactory
     ): Retrofit = retrofitFactory.create()
+
+    @Provides
+    fun provideApiLocaleProvider(
+        localeProvider: ApiLocaleProviderImpl
+    ): ApiLocaleProvider = localeProvider
 
     @Provides
     @Singleton

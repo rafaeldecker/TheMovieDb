@@ -17,6 +17,7 @@ import javax.inject.Singleton
         DomainModule::class,
         InfraModule::class,
         MappersModule::class,
+        UtilsModule::class,
         ViewModelModule::class
     ]
 )

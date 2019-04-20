@@ -2,22 +2,22 @@ package com.arctouch.codechallenge.infra.api
 
 import com.squareup.moshi.Json
 
-data class GenreResponse(val genres: List<Genre>)
+data class GenreResponse(val genres: List<GenreItem>)
 
-data class Genre(val id: Int, val name: String)
+data class GenreItem(val id: Int, val name: String)
 
 data class UpcomingMoviesResponse(
     val page: Int,
-    val results: List<Movie>,
+    val results: List<MovieItem>,
     @Json(name = "total_pages") val totalPages: Int,
     @Json(name = "total_results") val totalResults: Int
 )
 
-data class Movie(
+data class MovieItem(
     val id: Int,
     val title: String,
     val overview: String?,
-    val genres: List<Genre>?,
+    val genres: List<GenreItem>?,
     @Json(name = "genre_ids") val genreIds: List<Int>?,
     @Json(name = "poster_path") val posterPath: String?,
     @Json(name = "backdrop_path") val backdropPath: String?,

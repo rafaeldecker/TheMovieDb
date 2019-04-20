@@ -3,28 +3,48 @@ package com.arctouch.codechallenge.android.screens.home
 import android.os.Bundle
 import android.view.View
 import com.arctouch.codechallenge.R
-import com.arctouch.codechallenge.infra.api.TmdbApi
-import com.arctouch.codechallenge.android.screens.base.BaseActivity
-import com.arctouch.codechallenge.infra.cache.Cache
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.arctouch.codechallenge.android.screens.base.MvvmActivity
+import com.arctouch.codechallenge.android.screens.base.ViewModelState
+import com.arctouch.codechallenge.injection.ActivityComponent
 import kotlinx.android.synthetic.main.home_activity.*
 
-class HomeActivity : BaseActivity() {
+class HomeActivity : MvvmActivity<HomeViewModel>() {
+
+    override val viewModel: HomeViewModel by lazy {
+        viewModelFactory.get<HomeViewModel>(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)
-
-        api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, 1, TmdbApi.DEFAULT_REGION)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                val moviesWithGenres = it.results.map { movie ->
-                    movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
-                }
-                recyclerView.adapter = HomeAdapter(moviesWithGenres)
-                progressBar.visibility = View.GONE
-            }
     }
+
+    override fun assignDependencies() {
+        ActivityComponent.init(this).inject(this)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun onViewModelStateChanged(state: ViewModelState) {
+        when (state) {
+            is ViewModelState.Data<*> -> showDataState(state.data as List<MovieModel>)
+            ViewModelState.Loading -> showLoadingState()
+            is ViewModelState.Error -> showErrorState()
+        }
+    }
+
+    private fun showDataState(list: List<MovieModel>) {
+        errorLayout.visibility = View.GONE
+        progressBar.visibility = View.GONE
+        recyclerView.adapter = HomeAdapter(list)
+    }
+
+    private fun showErrorState() {
+        errorLayout.visibility = View.VISIBLE
+    }
+
+    private fun showLoadingState() {
+        errorLayout.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
+    }
+
 }

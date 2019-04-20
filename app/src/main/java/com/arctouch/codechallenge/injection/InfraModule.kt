@@ -1,5 +1,7 @@
 package com.arctouch.codechallenge.injection
 
+import com.arctouch.codechallenge.infra.cache.GenresCache
+import com.arctouch.codechallenge.infra.cache.GenresInMemoryCache
 import com.arctouch.codechallenge.infra.logger.Logger
 import com.arctouch.codechallenge.infra.logger.TimberLogger
 import com.arctouch.codechallenge.infra.schedulers.RxSchedulerProvider
@@ -23,5 +25,8 @@ class InfraModule {
     fun providesSchedulers(
         schedulers: RxSchedulerProviderImpl
     ): RxSchedulerProvider = schedulers
+
+    @Provides
+    fun providesGenresCache(): GenresCache = GenresInMemoryCache
 
 }
