@@ -19,7 +19,7 @@ class HomeModelMapper @Inject constructor(
                 id = id,
                 title = title,
                 genres = genres.orEmpty().joinToString(separator = ", ") { it.name },
-                releaseDate = releaseDate.orEmpty(),
+                releaseDate = releaseDate.orEmpty(), // TODO: format it in the future
                 posterUrl = posterPath?.let { urlBuilder.buildPosterUrl(it) }
             )
         }
