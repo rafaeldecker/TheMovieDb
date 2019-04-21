@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/posterImageView"
-        android:layout_width="60dp"
-        android:layout_height="90dp"
+        android:layout_width="@dimen/poster_width"
+        android:layout_height="@dimen/poster_height"
         android:adjustViewBounds="true"
         android:importantForAccessibility="no"
         android:scaleType="fitCenter"
