@@ -19,18 +19,20 @@ class DetailViewModel @Inject constructor(
 ): MvvmViewModel() {
 
     fun run(movieId: Long) {
-        addDisposable(
-            fetchMovieDetailUseCase.fetch(movieId)
-                .doOnSubscribe { updateState(ViewModelState.Loading) }
-                .subscribeOnIo(rxSchedulerProvider)
-                .map { mapper.map(it) }
-                .observeOnMainThread(rxSchedulerProvider)
-                .subscribe({
-                    updateState(ViewModelState.Data(it))
-                },{
-                    handleError(it)
-                })
-        )
+        if (state.value !is ViewModelState.Data<*>) {
+            addDisposable(
+                fetchMovieDetailUseCase.fetch(movieId)
+                    .doOnSubscribe { updateState(ViewModelState.Loading) }
+                    .subscribeOnIo(rxSchedulerProvider)
+                    .map { mapper.map(it) }
+                    .observeOnMainThread(rxSchedulerProvider)
+                    .subscribe({
+                        updateState(ViewModelState.Data(it))
+                    },{
+                        handleError(it)
+                    })
+            )
+        }
     }
 
 }

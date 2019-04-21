@@ -5,8 +5,10 @@ import com.arctouch.codechallenge.android.screens.base.ViewModelNavigator
 import com.arctouch.codechallenge.android.screens.base.ViewModelState
 import com.arctouch.codechallenge.domain.FetchAndStoreGenresUseCase
 import com.arctouch.codechallenge.domain.FetchUpcomingMoviesUseCase
+import com.arctouch.codechallenge.entities.Movie
 import com.arctouch.codechallenge.infra.logger.Logger
 import com.arctouch.codechallenge.infra.schedulers.RxSchedulerProvider
+import com.arctouch.codechallenge.utils.Mapper
 import com.arctouch.codechallenge.utils.extensions.observeOnMainThread
 import com.arctouch.codechallenge.utils.extensions.saveMainThread
 import com.arctouch.codechallenge.utils.extensions.subscribeOnIo
@@ -22,7 +24,7 @@ class HomeViewModel @Inject constructor(
     private val rxSchedulerProvider: RxSchedulerProvider,
     private val fetchAndStoreGenresUseCase: FetchAndStoreGenresUseCase,
     private val fetchUpcomingMoviesUseCase: FetchUpcomingMoviesUseCase,
-    private val HomeModelMapper: HomeModelMapper,
+    private val HomeModelMapper: Mapper<Movie, HomeModel>,
     private val logger: Logger
 ) : MvvmViewModel() {
 
