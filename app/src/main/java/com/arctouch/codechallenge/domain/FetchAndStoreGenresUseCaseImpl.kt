@@ -1,10 +1,12 @@
 package com.arctouch.codechallenge.domain
 
 import com.arctouch.codechallenge.BuildConfig
+import com.arctouch.codechallenge.entities.Genre
 import com.arctouch.codechallenge.infra.api.ApiLocaleProvider
 import com.arctouch.codechallenge.infra.api.TmdbApi
-import com.arctouch.codechallenge.infra.api.mappers.GenreMapper
+import com.arctouch.codechallenge.infra.api.models.GenreItem
 import com.arctouch.codechallenge.infra.cache.GenresCache
+import com.arctouch.codechallenge.utils.Mapper
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -15,7 +17,7 @@ import javax.inject.Inject
 class FetchAndStoreGenresUseCaseImpl @Inject constructor(
     private val api: TmdbApi,
     private val localeProvider: ApiLocaleProvider,
-    private val mapper: GenreMapper,
+    private val mapper: Mapper<GenreItem, Genre>,
     private val cache: GenresCache
 ) : FetchAndStoreGenresUseCase {
 
